@@ -1,0 +1,1125 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alter — Découvrez le potentiel de votre épargne avec Walter</title>
+<meta name="description" content="Simulation gratuite et personnalisée pour découvrir comment optimiser votre épargne.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f7f2ea;
+  --bg2:#ffffff;
+  --gold:#b8832a;
+  --gold-light:#d4a84b;
+  --gold-pale:rgba(184,131,42,0.08);
+  --blue:#2952b8;
+  --blue-hover:#1e3d96;
+  --blue-pale:rgba(41,82,184,0.06);
+  --text:#1a1206;
+  --text2:#5a4a2a;
+  --text3:#9a8060;
+  --border:rgba(184,131,42,0.16);
+  --border-h:rgba(184,131,42,0.45);
+  --shadow:0 2px 10px rgba(90,60,10,0.07);
+  --shadow-md:0 6px 22px rgba(90,60,10,0.12);
+  --shadow-lg:0 16px 48px rgba(90,60,10,0.14);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{height:100%;overflow-x:hidden}
+body{background:var(--bg);font-family:'Sora',sans-serif;color:var(--text);scroll-behavior:smooth;min-height:100dvh;display:flex;flex-direction:column;overflow-x:hidden}
+img{max-width:100%;display:block}
+button{font-family:inherit}
+.page-home{display:flex;flex-direction:column;flex:1;overflow:hidden}
+
+/* ============ PRELOADER ============ */
+#preloader{
+  position:fixed;inset:0;z-index:9999;
+  background:var(--bg);
+  display:flex;align-items:center;justify-content:center;
+  transition:opacity 0.6s ease, visibility 0.6s ease;
+}
+#preloader.hide{opacity:0;visibility:hidden;pointer-events:none}
+.preloader-inner{display:flex;flex-direction:column;align-items:center;gap:0.9rem}
+.preloader-inner video{width:min(220px,60vw);height:auto;border-radius:50%;box-shadow:0 12px 36px rgba(90,60,10,0.18)}
+.preloader-label{font-family:'Playfair Display',serif;font-size:18px;color:var(--text);letter-spacing:0.02em}
+.preloader-dots{display:flex;gap:7px}
+.preloader-dots span{width:6px;height:6px;border-radius:50%;background:rgba(184,131,42,0.3);animation:pdot 1.3s ease-in-out infinite}
+.preloader-dots span:nth-child(2){animation-delay:0.18s}
+.preloader-dots span:nth-child(3){animation-delay:0.36s}
+@keyframes pdot{0%,80%,100%{transform:scale(1);background:rgba(184,131,42,0.3)}40%{transform:scale(1.5);background:var(--gold)}}
+
+/* ============ TOP NAV ============ */
+.topnav{
+  position:relative;z-index:5;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1.1rem clamp(1.5rem,5vw,4rem);
+  flex-shrink:0;
+}
+.logo{display:flex;align-items:center}
+.logo-img{height:42px;width:auto;display:block}
+@media (min-width:881px){
+  .logo-img{height:54px}
+}
+.nav-badge{
+  display:inline-flex;align-items:center;gap:7px;
+  background:rgba(41,82,184,0.06);border:1px solid rgba(41,82,184,0.16);
+  border-radius:30px;padding:7px 18px;
+  font-size:11px;font-weight:600;color:var(--blue);
+  letter-spacing:0.08em;text-transform:uppercase;
+  white-space:nowrap;
+}
+.nav-badge svg{width:13px;height:13px;flex-shrink:0}
+
+/* ============ FORM NAV (logo + step title + progress) ============ */
+.formnav-inner{
+  display:flex;flex-direction:column;
+  width:100%;
+}
+.formnav-top{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1.4rem clamp(1.5rem,5vw,4rem) 0.9rem;
+}
+.formnav-step{
+  font-size:12.5px;font-weight:600;color:var(--text2);
+  letter-spacing:0.04em;
+}
+.formnav-step .step-count{color:var(--text3);font-weight:400;margin-left:6px;font-size:11px}
+.formnav-progtrack{
+  height:5px;background:rgba(184,131,42,0.12);
+  overflow:hidden;width:100%;
+}
+.formnav-progfill{
+  height:100%;background:linear-gradient(90deg,var(--blue),var(--gold));
+  transition:width 0.55s cubic-bezier(.4,0,.2,1);width:0%;
+}
+
+/* ============ HERO SECTION ============ */
+.hero{
+  position:relative;
+  display:grid;grid-template-columns:1.05fr 0.95fr;
+  align-items:center;
+  gap:clamp(1.5rem,4vw,3.5rem);
+  padding:1rem clamp(1.5rem,5vw,4rem) 1.5rem;
+  max-width:1360px;margin:0 auto;
+  width:100%;flex:1;
+}
+.hero-left{position:relative;z-index:2}
+
+.genie-bubble{
+  display:inline-flex;gap:12px;align-items:flex-start;
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:16px;padding:11px 15px;
+  box-shadow:var(--shadow-md);
+  margin-bottom:1.25rem;max-width:420px;
+}
+.bubble-avatar{
+  width:42px;height:42px;border-radius:50%;flex-shrink:0;
+  background:linear-gradient(135deg,var(--gold-pale),var(--blue-pale));
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;
+}
+.bubble-avatar img{width:100%;height:100%;object-fit:cover;object-position:top center}
+.bubble-content{flex:1}
+.bubble-name{font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:5px}
+.bubble-text{font-size:13.5px;color:var(--text2);line-height:1.65;font-weight:400}
+
+.hero-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(1.85rem,3.5vw,3.1rem);
+  font-weight:500;line-height:1.22;
+  color:var(--text);margin-bottom:0.75rem;
+}
+.hero-title em{color:var(--gold);font-style:italic;position:relative}
+.hero-title .underline{
+  position:relative;display:inline-block;
+}
+.hero-title .underline::after{
+  content:'';position:absolute;left:2px;right:2px;bottom:-2px;height:3px;
+  background:var(--gold-light);border-radius:2px;opacity:0.55;
+}
+
+.hero-sub{
+  font-size:14px;color:var(--text3);line-height:1.65;
+  margin-bottom:1.35rem;max-width:400px;font-weight:300;
+}
+
+.cta-primary{
+  display:inline-flex;align-items:center;gap:10px;
+  background:var(--gold);color:#fff;
+  border:none;border-radius:13px;
+  padding:13px 28px;font-size:14px;font-weight:600;
+  cursor:pointer;letter-spacing:0.02em;
+  box-shadow:0 8px 24px rgba(184,131,42,0.3);
+  transition:all 0.22s cubic-bezier(.4,0,.2,1);
+  margin-bottom:0.7rem;
+}
+.cta-primary:hover{background:var(--blue);transform:translateY(-2px);box-shadow:0 12px 30px rgba(41,82,184,0.35)}
+.cta-primary:active{transform:translateY(0)}
+.cta-arrow{transition:transform 0.2s}
+.cta-primary:hover .cta-arrow{transform:translateX(3px)}
+
+.cta-reassure{
+  display:flex;align-items:center;gap:6px;
+  font-size:11.5px;color:var(--text3);font-weight:300;
+  margin-bottom:1.75rem;
+}
+.cta-reassure svg{width:13px;height:13px;flex-shrink:0}
+
+.stat-strip{
+  display:flex;gap:0;
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:14px;overflow:hidden;
+  box-shadow:var(--shadow);
+  max-width:460px;
+}
+.stat-item{
+  flex:1;display:flex;align-items:center;gap:10px;
+  padding:14px 18px;position:relative;
+}
+.stat-item:not(:last-child)::after{
+  content:'';position:absolute;right:0;top:20%;bottom:20%;width:1px;background:var(--border);
+}
+.stat-ico{
+  width:32px;height:32px;border-radius:50%;flex-shrink:0;
+  background:linear-gradient(135deg,rgba(41,82,184,0.08),rgba(184,131,42,0.06));
+  border:1px solid rgba(41,82,184,0.12);
+  display:flex;align-items:center;justify-content:center;
+}
+.stat-num{font-family:'Playfair Display',serif;font-size:17px;font-weight:600;line-height:1;color:var(--text)}
+.stat-lbl{font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;font-weight:500;margin-top:2px}
+
+/* ============ HERO RIGHT — GENIE ============ */
+.hero-right{position:relative;display:flex;align-items:center;justify-content:center;z-index:1}
+.genie-halo{
+  position:absolute;width:480px;height:480px;border-radius:50%;
+  background:radial-gradient(circle,rgba(184,131,42,0.1) 0%,rgba(184,131,42,0.03) 55%,transparent 75%);
+  pointer-events:none;
+}
+.genie-img-wrap{position:relative;z-index:2;width:min(420px,90%)}
+.genie-img-wrap video{width:100%;height:auto;display:block;border-radius:50%;filter:drop-shadow(0 24px 50px rgba(90,60,10,0.18))}
+.sparkle{position:absolute;color:var(--gold-light);opacity:0.7;animation:tw 2.6s ease-in-out infinite}
+.sparkle:nth-child(1){top:8%;right:18%;font-size:18px;animation-delay:0s}
+.sparkle:nth-child(2){top:22%;right:6%;font-size:12px;animation-delay:0.6s}
+.sparkle:nth-child(3){top:55%;left:4%;font-size:14px;animation-delay:1.2s}
+@keyframes tw{0%,100%{opacity:0.2;transform:scale(0.85)}50%{opacity:0.85;transform:scale(1.15)}}
+
+/* ============ BG DECOR ============ */
+.bg-decor{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.dot-field{
+  position:absolute;inset:0;
+  background-image:radial-gradient(rgba(184,131,42,0.1) 1px, transparent 1px);
+  background-size:30px 30px;
+  mask-image:radial-gradient(ellipse 70% 60% at 75% 35%, black 30%, transparent 75%);
+  -webkit-mask-image:radial-gradient(ellipse 70% 60% at 75% 35%, black 30%, transparent 75%);
+}
+.ring-decor{position:absolute;border-radius:50%;border:1px solid rgba(184,131,42,0.07)}
+.ring-1{width:600px;height:600px;top:-200px;right:-150px}
+.ring-2{width:420px;height:420px;top:-80px;right:-50px}
+
+.bg-sparkle{position:absolute;color:var(--gold-light);animation:tw 3.2s ease-in-out infinite}
+.bg-sparkle:nth-child(1){top:10%;left:8%;font-size:16px;animation-delay:0s;opacity:0.5}
+.bg-sparkle:nth-child(2){top:18%;left:42%;font-size:12px;animation-delay:0.9s;opacity:0.4}
+.bg-sparkle:nth-child(3){top:14%;right:12%;font-size:20px;animation-delay:1.8s;opacity:0.55}
+.bg-sparkle:nth-child(4){top:48%;left:5%;font-size:14px;animation-delay:0.4s;opacity:0.45}
+.bg-sparkle:nth-child(5){top:62%;right:7%;font-size:17px;animation-delay:2.3s;opacity:0.5}
+.bg-sparkle:nth-child(6){bottom:14%;left:20%;font-size:13px;animation-delay:1.3s;opacity:0.4}
+.bg-sparkle:nth-child(7){bottom:22%;right:28%;font-size:18px;animation-delay:2.8s;opacity:0.5}
+.bg-sparkle:nth-child(8){bottom:8%;left:55%;font-size:12px;animation-delay:1.6s;opacity:0.4}
+
+.bg-euro{position:absolute;color:rgba(41,82,184,0.18);font-family:'Playfair Display',serif;font-style:italic;animation:tw 4s ease-in-out infinite;font-weight:500}
+.bg-euro:nth-child(9) {top:25%;left:15%;font-size:14px;animation-delay:0.7s}
+.bg-euro:nth-child(10){top:70%;left:35%;font-size:11px;animation-delay:2.1s}
+.bg-euro:nth-child(11){top:40%;right:18%;font-size:16px;animation-delay:1.4s}
+.bg-euro:nth-child(12){bottom:30%;right:10%;font-size:12px;animation-delay:3.2s}
+.bg-euro:nth-child(13){top:80%;left:8%;font-size:13px;animation-delay:0.3s}
+
+/* ============ FORM PAGE (hidden initially) ============ */
+.formnav{display:none;border-bottom:1px solid var(--border);padding:0;flex-direction:column;align-items:stretch}
+body.show-form .formnav{display:flex}
+.formpage{display:none;min-height:100vh;align-items:center;justify-content:center;padding:1rem 1rem 3rem;position:relative;z-index:2}
+.formpage.active{display:flex}
+body.show-form .hero,body.show-form .topnav:not(.formnav){display:none}
+
+.fw{
+  width:100%;max-width:640px;
+  background:var(--bg2);min-height:600px;border-radius:24px;
+  overflow:hidden;position:relative;
+  border:1px solid var(--border);
+  box-shadow:var(--shadow-lg);
+}
+.fw-inner{position:relative;z-index:1;padding:clamp(1.5rem,4vw,2.5rem)}
+
+/* GENIE ROW (inside form) */
+.genie-row{display:flex;align-items:flex-start;gap:12px;margin-bottom:1.6rem}
+.g-mini{width:46px;height:46px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,var(--gold-pale),var(--blue-pale));display:flex;align-items:center;justify-content:center;overflow:hidden}
+.g-mini img{width:100%;height:100%;object-fit:cover}
+.bubble2{flex:1;background:var(--bg);border:1px solid var(--border);border-radius:13px 13px 13px 3px;padding:11px 14px}
+.b2-name{font-size:9.5px;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);margin-bottom:4px;font-weight:700}
+.b2-text{font-size:12.5px;color:var(--text2);line-height:1.6;transition:opacity 0.2s}
+
+.screen{display:none}
+.screen.active{display:block;animation:fu 0.4s cubic-bezier(.4,0,.2,1) forwards}
+@keyframes fu{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@keyframes genieIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.genie-animating{animation:genieIn 0.32s cubic-bezier(.4,0,.2,1) forwards}
+
+.stag{font-size:9.5px;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:9px;font-weight:700}
+.sh1{font-family:'Playfair Display',serif;font-size:23px;color:var(--text);line-height:1.35;margin-bottom:5px;font-weight:500}
+.sh2{font-size:12px;color:var(--text3);margin-bottom:1.4rem;line-height:1.65;font-weight:300}
+
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:1.1rem}
+.opts.c3{grid-template-columns:1fr 1fr 1fr}
+.opts.c1{grid-template-columns:1fr}
+.opt{background:var(--bg2);border:1.5px solid rgba(184,131,42,0.16);border-radius:11px;padding:12px 13px;cursor:pointer;transition:all 0.2s;text-align:left;position:relative;box-shadow:0 1px 4px rgba(90,60,10,0.05)}
+.opt:hover{border-color:var(--border-h);box-shadow:var(--shadow-md);transform:translateY(-1px)}
+.opt.sel{border-color:var(--gold);background:var(--gold-pale);box-shadow:0 0 0 3px rgba(184,131,42,0.08)}
+.opt-icon{font-size:18px;margin-bottom:5px;display:block}
+.opt-icon svg{width:26px;height:26px;display:block}
+.opt-lbl{font-size:12.5px;color:var(--text);font-weight:500;line-height:1.3}
+.opt-sub{font-size:10.5px;color:var(--text3);margin-top:2px;font-weight:300}
+.chk{position:absolute;top:9px;right:9px;width:17px;height:17px;border-radius:50%;border:1.5px solid rgba(184,131,42,0.25);display:flex;align-items:center;justify-content:center;font-size:9px;color:transparent;transition:all 0.18s;background:var(--bg2)}
+.opt.sel .chk{background:var(--gold);border-color:var(--gold);color:#fff}
+
+.nav{display:flex;align-items:center;gap:10px;margin-top:0.6rem}
+.back{background:var(--bg2);border:1.5px solid rgba(184,131,42,0.2);color:var(--text3);font-size:12.5px;cursor:pointer;padding:11px 17px;border-radius:11px;transition:all 0.18s;flex-shrink:0;box-shadow:0 1px 4px rgba(90,60,10,0.05)}
+.back:hover{border-color:var(--gold);color:var(--text);box-shadow:var(--shadow)}
+.cta{flex:1;background:var(--blue);color:#fff;border:none;border-radius:11px;padding:13px 20px;font-size:13px;font-weight:600;cursor:pointer;letter-spacing:0.03em;transition:all 0.2s;box-shadow:0 4px 16px rgba(41,82,184,0.28)}
+.cta:hover:not(:disabled){background:var(--blue-hover);transform:translateY(-2px);box-shadow:0 8px 22px rgba(41,82,184,0.35)}
+.cta:active:not(:disabled){transform:translateY(0)}
+.cta:disabled{opacity:0.22;cursor:not-allowed;transform:none;box-shadow:none}
+.cta-full{width:100%;margin-top:0.5rem;flex:none}
+
+.slider-section{background:var(--bg);border:1.5px solid var(--border);border-radius:13px;padding:1.15rem 1.25rem;margin-bottom:1rem}
+.slider-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem}
+.slider-title{font-size:9.5px;letter-spacing:0.16em;text-transform:uppercase;color:var(--text3);font-weight:700}
+.slider-current{font-family:'Playfair Display',serif;font-size:17px;color:var(--blue);font-weight:500}
+.slider-labels{display:flex;justify-content:space-between;margin-top:8px}
+.slider-label{font-size:9px;color:var(--text3);font-weight:300}
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:5px;border-radius:3px;outline:none;cursor:pointer;background:linear-gradient(90deg,var(--blue) var(--pct,0%),rgba(184,131,42,0.15) var(--pct,0%))}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:#fff;border:2.5px solid var(--blue);box-shadow:0 2px 8px rgba(41,82,184,0.25);cursor:pointer;transition:transform 0.15s}
+input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.15)}
+input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:#fff;border:2.5px solid var(--blue);cursor:pointer}
+
+.est{background:var(--bg);border:1.5px solid var(--border);border-radius:13px;padding:1rem 1.15rem;margin-bottom:1rem}
+.est-lbl{font-size:9.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--text3);margin-bottom:4px;font-weight:700}
+.est-val{font-family:'Playfair Display',serif;font-size:28px;color:var(--gold);font-weight:500;line-height:1}
+.est-hint{font-size:10px;color:var(--text3);margin-top:4px;font-weight:300}
+.est-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:1rem}
+.soft-est{border-style:dashed;border-color:rgba(184,131,42,0.2)}
+.soft-val{font-size:15px!important;color:var(--text2)!important;font-family:'Sora',sans-serif!important;font-weight:500!important;line-height:1.4!important}
+
+.recap-box{background:var(--blue-pale);border:1px solid rgba(41,82,184,0.14);border-radius:11px;padding:0.9rem 1.1rem;margin-bottom:1rem}
+.recap-lbl{font-size:9px;letter-spacing:0.16em;text-transform:uppercase;color:var(--blue);margin-bottom:8px;font-weight:700}
+.recap-obj{display:flex;flex-wrap:wrap;gap:6px}
+.recap-tag{background:rgba(41,82,184,0.08);border:1px solid rgba(41,82,184,0.18);border-radius:20px;padding:4px 11px;font-size:11px;color:var(--blue);font-weight:500}
+
+.strat-est{padding:1.1rem 1.2rem}
+.strat-row{margin-bottom:12px}
+.strat-val{font-family:'Playfair Display',serif;font-size:24px;color:var(--gold);font-weight:500;line-height:1}
+.strat-dots{display:flex;gap:7px;margin-bottom:10px}
+.strat-dot{flex:1;height:8px;border-radius:4px;background:rgba(184,131,42,0.14);transition:background 0.35s, transform 0.25s}
+.strat-dot.lit{background:linear-gradient(90deg,var(--blue),var(--gold));transform:scaleY(1.15)}
+
+.inp-wrap{margin-bottom:0.9rem}
+.inp-lbl{font-size:9.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--text3);margin-bottom:7px;display:block;font-weight:700}
+.inp{width:100%;background:var(--bg2);border:1.5px solid rgba(184,131,42,0.2);border-radius:10px;padding:12px 14px;font-size:13.5px;color:var(--text);outline:none;transition:all 0.18s;box-shadow:0 1px 4px rgba(90,60,10,0.05)}
+.inp:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(41,82,184,0.08)}
+.inp::placeholder{color:rgba(154,128,96,0.4)}
+
+.divider{height:1px;background:var(--border);margin:0.9rem 0}
+.reassure{font-size:10.5px;color:var(--text3);text-align:center;margin-top:10px;font-weight:300}
+
+.etude-wrap{display:flex;flex-direction:column;gap:0.85rem}
+.etude-top{text-align:center}
+.countdown-wrap{display:flex;flex-direction:column;align-items:center}
+.countdown-gif{width:110px;height:110px;display:block;margin:0 auto}
+.reveal-walter{width:110px;height:110px;object-fit:cover;border-radius:50%;display:block;margin:0 auto;border:2px solid rgba(184,131,42,0.3);box-shadow:0 6px 20px rgba(184,131,42,0.18)}
+@keyframes revealIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.cta-reveal{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;background:var(--blue);color:#fff;border:none;border-radius:11px;padding:13px 24px;font-size:13.5px;font-weight:600;font-family:'Sora',sans-serif;cursor:pointer;letter-spacing:0.03em;text-decoration:none;transition:all 0.22s cubic-bezier(.4,0,.2,1);box-shadow:0 4px 16px rgba(41,82,184,0.28)}
+.cta-reveal:hover{background:var(--gold);box-shadow:0 8px 24px rgba(184,131,42,0.35);transform:translateY(-2px)}
+.email-alt{display:flex;flex-direction:column;gap:8px}
+.email-alt-lbl{font-size:11px;color:var(--text3);text-align:center;letter-spacing:0.06em;text-transform:uppercase}
+.email-row{display:flex;gap:8px}
+.email-row .inp{flex:1;margin:0}
+.cta-email{background:var(--blue);color:#fff;border:none;border-radius:10px;padding:11px 18px;font-size:12.5px;font-weight:600;font-family:'Sora',sans-serif;cursor:pointer;white-space:nowrap;transition:all 0.18s}
+.cta-email:hover:not(:disabled){background:var(--blue-hover)}
+.cta-email:disabled{opacity:0.25;cursor:not-allowed}
+.email-confirm{font-size:12px;color:var(--blue);text-align:center;min-height:16px;font-weight:500}
+
+.loader{text-align:center;padding:2.75rem 0}
+.spin{width:42px;height:42px;border:2px solid rgba(41,82,184,0.12);border-top-color:var(--blue);border-radius:50%;animation:sp 0.9s linear infinite;margin:0 auto 1.3rem}
+@keyframes sp{to{transform:rotate(360deg)}}
+.load-txt{font-family:'Playfair Display',serif;font-size:17px;color:var(--text2);margin-bottom:1.1rem;font-style:italic}
+.load-item{font-size:11.5px;color:rgba(154,128,96,0.4);display:flex;align-items:center;gap:8px;justify-content:center;margin-bottom:7px;transition:color 0.4s}
+.load-item.lit{color:var(--blue)}
+.ld{width:3px;height:3px;border-radius:50%;background:currentColor;flex-shrink:0}
+
+.suc{text-align:center;padding:0.5rem 0}
+.sring{width:60px;height:60px;border-radius:50%;background:rgba(41,82,184,0.08);border:1.5px solid rgba(41,82,184,0.3);display:flex;align-items:center;justify-content:center;margin:0 auto 1.3rem;font-size:22px;animation:pop 0.5s cubic-bezier(.4,0,.2,1)}
+@keyframes pop{from{transform:scale(0.4);opacity:0}to{transform:scale(1);opacity:1}}
+.stats2{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:1rem}
+.stat2{background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:11px;text-align:center}
+.stat2-n{font-family:'Playfair Display',serif;font-size:19px;color:var(--gold)}
+.stat2-l{font-size:9px;color:var(--text3);margin-top:2px;letter-spacing:0.08em;text-transform:uppercase;font-weight:300}
+.sep-lbl{font-size:9.5px;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;display:block;font-weight:700}
+
+/* RESPONSIVE */
+@media (max-width:880px){
+  .topnav{flex-direction:column;align-items:center;gap:0.85rem;padding:1.4rem 1.25rem}
+  .nav-badge{font-size:10px;padding:6px 14px;letter-spacing:0.05em}
+  .hero{grid-template-columns:1fr;text-align:center;gap:2.5rem;padding-top:1rem}
+  .hero-left{order:2}
+  .hero-right{display:none}
+  .genie-bubble{display:flex;width:100%;margin:0 auto 1.85rem;text-align:left;max-width:100%}
+  .bubble-content{min-width:0;flex:1}
+  .hero-sub{margin:0 auto 1.85rem}
+  .cta-reassure{justify-content:center;margin:0 auto 1.75rem}
+  .stat-strip{margin:0 auto}
+}
+@media (max-width:480px){
+  .stat-strip{flex-direction:column}
+  .stat-item:not(:last-child)::after{display:none}
+  .stat-item:not(:last-child){border-bottom:1px solid var(--border)}
+}
+/* ============ POPUP VÉRIFICATION SMS ============ */
+.otp-overlay{
+  position:fixed;inset:0;z-index:300;
+  background:rgba(26,18,6,0.55);
+  display:none;align-items:center;justify-content:center;
+  padding:1.25rem;
+}
+.otp-overlay.active{display:flex}
+.otp-box{
+  background:var(--bg2);border-radius:18px;
+  box-shadow:var(--shadow-lg);
+  padding:1.75rem;max-width:380px;width:100%;
+  text-align:center;
+}
+.otp-title{font-family:'Playfair Display',serif;font-size:19px;font-weight:600;color:var(--text);margin-bottom:0.5rem}
+.otp-sub{font-size:13px;color:var(--text2);line-height:1.55;margin-bottom:1.25rem}
+.otp-sub span{font-weight:600;color:var(--text)}
+.otp-input{
+  width:100%;border:1px solid var(--border);border-radius:12px;
+  padding:13px;font-size:22px;letter-spacing:0.3em;text-align:center;
+  font-family:'Sora',sans-serif;color:var(--text);
+  margin-bottom:0.6rem;outline:none;
+  transition:border-color 0.2s;
+}
+.otp-input:focus{border-color:var(--gold)}
+.otp-error{
+  font-size:12.5px;color:#b8323a;min-height:18px;margin-bottom:0.6rem;
+}
+.otp-resend{
+  background:none;border:none;cursor:pointer;
+  font-size:12.5px;color:var(--text3);text-decoration:underline;
+  margin-top:0.85rem;
+}
+.otp-resend:disabled{opacity:0.5;cursor:default;text-decoration:none}
+</style>
+</head>
+<body>
+
+<div id="preloader">
+  <div class="preloader-inner">
+    <video id="preloader-video" autoplay muted playsinline aria-label="Chargement — Mon Alter-€co">
+      <source src="assets/tirelire.mp4" type="video/mp4">
+    </video>
+    <div class="preloader-label">Mon Alter-€co</div>
+    <div class="preloader-dots"><span></span><span></span><span></span></div>
+  </div>
+</div>
+
+<div class="bg-decor">
+  <div class="ring-decor ring-1"></div>
+  <div class="ring-decor ring-2"></div>
+  <div class="dot-field"></div>
+  <span class="bg-sparkle">✦</span><span class="bg-sparkle">✦</span><span class="bg-sparkle">✦</span><span class="bg-sparkle">✦</span><span class="bg-sparkle">✦</span><span class="bg-sparkle">✦</span><span class="bg-sparkle">✦</span><span class="bg-sparkle">✦</span>
+  <span class="bg-euro">€</span><span class="bg-euro">€</span><span class="bg-euro">€</span><span class="bg-euro">€</span><span class="bg-euro">€</span>
+</div>
+
+<!-- ============ NAV ============ -->
+<div class="page-home" id="page-home">
+<div class="topnav">
+  <div class="logo">
+    <img src="assets/logo.png" alt="Mon Alter-€co" class="logo-img">
+  </div>
+  <div class="nav-badge">
+    <svg viewBox="0 0 16 16" fill="none"><path d="M8 1L9.5 6 14.5 7.5 9.5 9 8 14 6.5 9 1.5 7.5 6.5 6Z" fill="#2952b8"/></svg>
+    Simulation gratuite &amp; personnalisée
+  </div>
+</div>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="genie-bubble">
+      <div class="bubble-avatar"><img src="assets/walter-avatar.png" alt="Walter"></div>
+      <div class="bubble-content">
+        <div class="bubble-name">Walter — Génie Financier</div>
+        <div class="bubble-text">Bonjour, je suis Walter, votre conseiller financier virtuel. En deux minutes, je vous propose une première analyse de votre potentiel d'épargne et d'investissement.</div>
+      </div>
+    </div>
+
+    <h1 class="hero-title">Découvrez le vrai potentiel<br><span class="underline"><em>de votre épargne</em></span></h1>
+    <p class="hero-sub">Une simulation rapide, gratuite et personnalisée pour donner du sens à votre argent.</p>
+
+    <button class="cta-primary" onclick="startForm()">
+      Commencer mon analyse <span class="cta-arrow">→</span>
+    </button>
+    <div class="stat-strip">
+      <div class="stat-item">
+        <div class="stat-ico">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.5" stroke="#2952b8" stroke-width="1.3"/><path d="M8 4.5V8.5L10.5 10" stroke="#b8832a" stroke-width="1.3" stroke-linecap="round"/></svg>
+        </div>
+        <div><div class="stat-num">2 min</div><div class="stat-lbl">Durée</div></div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-ico">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2L9.2 5.8H13.2L10 8.1L11.2 12L8 9.7L4.8 12L6 8.1L2.8 5.8H6.8Z" stroke="#2952b8" stroke-width="1.2" stroke-linejoin="round"/><circle cx="8" cy="8" r="2" fill="#b8832a" opacity="0.6"/></svg>
+        </div>
+        <div><div class="stat-num">100%</div><div class="stat-lbl">Gratuit</div></div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-ico">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.5" stroke="#2952b8" stroke-width="1.3"/><path d="M5.5 7.5C5.5 9 6.6 10 8 10C9.4 10 10.5 9 10.5 7.5" stroke="#b8832a" stroke-width="1.2" stroke-linecap="round" fill="none"/><line x1="6" y1="6" x2="10" y2="6" stroke="#b8832a" stroke-width="1.2" stroke-linecap="round"/></svg>
+        </div>
+        <div><div class="stat-num">0</div><div class="stat-lbl">Engagement</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="genie-halo"></div>
+    <span class="sparkle">✦</span><span class="sparkle">✦</span><span class="sparkle">✦</span>
+    <div class="genie-img-wrap">
+      <video id="hero-video" autoplay muted playsinline aria-label="Tirelire dorée animée, symbole de l'épargne qui fructifie">
+        <source src="assets/tirelire.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
+</section>
+</div><!-- /page-home -->
+
+<!-- ============ FORM TUNNEL ============ -->
+<div class="topnav formnav" id="formnav">
+  <div class="formnav-inner">
+    <div class="formnav-top">
+      <div class="logo">
+        <img src="assets/logo.png" alt="Mon Alter-€co" class="logo-img">
+      </div>
+      <div class="formnav-step"><span id="ps2"></span><span class="step-count" id="pp2"></span></div>
+    </div>
+    <div class="formnav-progtrack"><div class="formnav-progfill" id="pf2"></div></div>
+  </div>
+</div>
+<section class="formpage" id="formpage">
+  <div class="fw">
+    <div class="fw-inner">
+
+      <div class="genie-row">
+        <div class="g-mini"><img src="assets/walter-avatar.png" alt="Walter"></div>
+        <div class="bubble2">
+          <div class="b2-name">Walter — Génie Financier</div>
+          <div class="b2-text" id="gtxt">Très bien, commençons. Quelques questions simples pour personnaliser votre analyse.</div>
+        </div>
+      </div>
+
+      <!-- S1 STATUT -->
+      <div class="screen active" id="s1">
+        <span class="stag">Votre profil</span>
+        <div class="sh1">Quel est votre statut professionnel ?</div>
+        <div class="sh2">Pour calibrer votre analyse patrimoniale</div>
+        <div class="opts">
+          <div class="opt" onclick="pick(this,'statut','Chef d\'entreprise','En tant que dirigeant d\'entreprise, vous avez accès à des dispositifs d\'optimisation spécifiques que nous allons explorer.')"><div class="chk">✓</div><span class="opt-icon"><svg viewBox="0 0 40 40" fill="none"><path d="M8 32V16L20 8L32 16V32H24V24H16V32H8Z" fill="#2952B8" opacity="0.12"/><path d="M8 32V16L20 8L32 16V32H24V24H16V32H8Z" stroke="#2952B8" stroke-width="1.8" stroke-linejoin="round"/><rect x="17" y="14" width="6" height="6" rx="1" fill="#B8832A"/></svg></span><span class="opt-lbl">Chef d'entreprise</span></div>
+          <div class="opt" onclick="pick(this,'statut','Artisan / Commerçant','Votre statut ouvre droit à plusieurs dispositifs d\'optimisation adaptés aux indépendants.')"><div class="chk">✓</div><span class="opt-icon"><svg viewBox="0 0 40 40" fill="none"><path d="M10 18L20 9L30 18V31H10V18Z" fill="#B8832A" opacity="0.1"/><path d="M10 18L20 9L30 18V31H10V18Z" stroke="#2952B8" stroke-width="1.8" stroke-linejoin="round"/><path d="M16 31V23H24V31" stroke="#B8832A" stroke-width="1.8" stroke-linejoin="round"/><circle cx="20" cy="17" r="2" fill="#B8832A"/></svg></span><span class="opt-lbl">Artisan / Commerçant</span></div>
+          <div class="opt" onclick="pick(this,'statut','Profession libérale','Les professions libérales bénéficient de leviers fiscaux particulièrement intéressants.')"><div class="chk">✓</div><span class="opt-icon"><svg viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="13" fill="#2952B8" opacity="0.1"/><circle cx="20" cy="20" r="13" stroke="#2952B8" stroke-width="1.8"/><path d="M14 20H26M20 14V26" stroke="#B8832A" stroke-width="1.8" stroke-linecap="round"/><path d="M15 24L25 16" stroke="#B8832A" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/></svg></span><span class="opt-lbl">Profession libérale</span></div>
+          <div class="opt" onclick="pick(this,'statut','Salarié','Plusieurs solutions d\'épargne et de défiscalisation restent accessibles aux salariés.')"><div class="chk">✓</div><span class="opt-icon"><svg viewBox="0 0 40 40" fill="none"><rect x="11" y="16" width="18" height="14" rx="2" fill="#2952B8" opacity="0.12"/><rect x="11" y="16" width="18" height="14" rx="2" stroke="#2952B8" stroke-width="1.8"/><path d="M16 16V13C16 11.8954 16.8954 11 18 11H22C23.1046 11 24 11.8954 24 13V16" stroke="#B8832A" stroke-width="1.8"/><line x1="11" y1="21" x2="29" y2="21" stroke="#B8832A" stroke-width="1.5" opacity="0.5"/></svg></span><span class="opt-lbl">Salarié</span></div>
+          <div class="opt" onclick="pick(this,'statut','Retraité','À ce stade, l\'objectif est surtout de faire fructifier et transmettre votre patrimoine.')"><div class="chk">✓</div><span class="opt-icon"><svg viewBox="0 0 40 40" fill="none"><circle cx="20" cy="16" r="9" fill="#B8832A" opacity="0.55"/><path d="M9 32C9 26 13.5 22 20 22C26.5 22 31 26 31 32" stroke="#2952B8" stroke-width="1.8" stroke-linecap="round"/><path d="M14 12C16 9 24 9 26 12" stroke="#2952B8" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/></svg></span><span class="opt-lbl">Retraité</span></div>
+          <div class="opt" onclick="pick(this,'statut','Autre','Nous adapterons l\'analyse à votre situation particulière.')"><div class="chk">✓</div><span class="opt-icon"><svg viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="13" stroke="#2952B8" stroke-width="1.8" stroke-dasharray="3 3"/><circle cx="20" cy="20" r="3" fill="#B8832A"/></svg></span><span class="opt-lbl">Autre</span></div>
+        </div>
+        <div class="nav"><button class="back" onclick="goHome()">← Accueil</button><button class="cta" id="b1" disabled onclick="go(2)">Continuer →</button></div>
+      </div>
+
+      <!-- S2 FAMILLE -->
+      <div class="screen" id="s2">
+        <span class="stag">Votre situation</span>
+        <div class="sh1">Situation familiale ?</div>
+        <div class="sh2">Elle influence directement votre stratégie fiscale</div>
+        <div class="opts c3">
+          <div class="opt" onclick="pick(this,'famille','Célibataire','Votre situation offre une certaine flexibilité dans le choix des supports d\'investissement.')"><div class="chk">✓</div><span class="opt-icon"><svg viewBox="0 0 40 40" fill="none"><circle cx="20" cy="14" r="6" fill="#2952B8" opacity="0.15"/><circle cx="20" cy="14" r="6" stroke="#2952B8" stroke-width="1.8"/><path d="M10 31C10 25 14 21 20 21C26 21 30 25 30 31" stroke="#B8832A" stroke-width="1.8" stroke-linecap="round"/></svg></span><span class="opt-lbl">Célibataire</span></div>
+          <div class="opt" onclick="pick(this,'famille','Marié(e)','La déclaration commune permet d\'envisager des stratégies d\'optimisation à deux.')"><div class="chk">✓</div><span class="opt-icon"><svg viewBox="0 0 40 40" fill="none"><circle cx="16" cy="17" r="6" stroke="#2952B8" stroke-width="1.8" fill="#2952B8" fill-opacity="0.1"/><circle cx="24" cy="17" r="6" stroke="#B8832A" stroke-width="1.8" fill="#B8832A" fill-opacity="0.1"/><path d="M8 31C8 26.5 11 23.5 16 23.5M32 31C32 26.5 29 23.5 24 23.5" stroke="#2952B8" stroke-width="1.6" stroke-linecap="round"/></svg></span><span class="opt-lbl">Marié(e)</span></div>
+          <div class="opt" onclick="pick(this,'famille','Pacsé(e)','Le PACS offre un cadre fiscal proche du mariage, avec des opportunités similaires.')"><div class="chk">✓</div><span class="opt-icon"><svg viewBox="0 0 40 40" fill="none"><circle cx="16" cy="19" r="6" stroke="#2952B8" stroke-width="1.8"/><circle cx="24" cy="19" r="6" stroke="#B8832A" stroke-width="1.8"/><path d="M16 13V11M24 13V11" stroke="#2952B8" stroke-width="1.5" stroke-linecap="round"/></svg></span><span class="opt-lbl">Pacsé(e)</span></div>
+          <div class="opt" onclick="pick(this,'famille','Divorcé(e)','Nous tiendrons compte de cette situation dans l\'analyse de votre profil.')"><div class="chk">✓</div><span class="opt-icon"><svg viewBox="0 0 40 40" fill="none"><circle cx="14" cy="16" r="5" stroke="#2952B8" stroke-width="1.8" opacity="0.6"/><circle cx="26" cy="24" r="5" stroke="#B8832A" stroke-width="1.8" opacity="0.6"/><path d="M19 21L21 19M21 21L19 19" stroke="#2952B8" stroke-width="1.8" stroke-linecap="round"/></svg></span><span class="opt-lbl">Divorcé(e)</span></div>
+          <div class="opt" onclick="pick(this,'famille','Union libre','Cette situation sera prise en compte pour les stratégies de protection patrimoniale.')"><div class="chk">✓</div><span class="opt-icon"><svg viewBox="0 0 40 40" fill="none"><circle cx="16" cy="17" r="6" stroke="#2952B8" stroke-width="1.8"/><circle cx="24" cy="17" r="6" stroke="#B8832A" stroke-width="1.8"/><path d="M14 28C14 28 17 31 20 31C23 31 26 28 26 28" stroke="#B8832A" stroke-width="1.6" stroke-linecap="round" fill="none"/></svg></span><span class="opt-lbl">Union libre</span></div>
+          <div class="opt" onclick="pick(this,'famille','Veuf(ve)','Une attention particulière sera portée aux aspects de transmission patrimoniale.')"><div class="chk">✓</div><span class="opt-icon"><svg viewBox="0 0 40 40" fill="none"><circle cx="20" cy="15" r="6" stroke="#2952B8" stroke-width="1.8" fill="#2952B8" fill-opacity="0.08"/><path d="M10 31C10 25 14 21 20 21C26 21 30 25 30 31" stroke="#2952B8" stroke-width="1.8" stroke-linecap="round"/><path d="M16 9C17 7 23 7 24 9" stroke="#B8832A" stroke-width="1.5" stroke-linecap="round" opacity="0.7"/></svg></span><span class="opt-lbl">Veuf(ve)</span></div>
+        </div>
+        <div class="nav"><button class="back" onclick="go(1)">← Retour</button><button class="cta" id="b2" disabled onclick="go(3)">Continuer →</button></div>
+      </div>
+
+      <!-- S3 OBJECTIFS -->
+      <div class="screen" id="s3">
+        <span class="stag">Vos objectifs</span>
+        <div class="sh1">Qu'est-ce qui vous importe le plus ?</div>
+        <div class="sh2">Plusieurs choix possibles</div>
+        <div class="opts">
+          <div class="opt" onclick="tog(this,'Réduire mon imposition','La réduction d\'impôts est un levier efficace pour préserver votre pouvoir d\'achat.')"><div class="chk">✓</div><span class="opt-icon"><svg viewBox="0 0 40 40" fill="none"><path d="M9 26L17 18L23 23L31 13" stroke="#2952B8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M25 13H31V19" stroke="#B8832A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><line x1="9" y1="31" x2="31" y2="31" stroke="#2952B8" stroke-width="1.5" opacity="0.4" stroke-linecap="round"/></svg></span><span class="opt-lbl">Réduire mes impôts</span></div>
+          <div class="opt" onclick="tog(this,'Préparer ma retraite','Anticiper sa retraite permet de bénéficier d\'un effet de capitalisation sur le long terme.')"><div class="chk">✓</div><span class="opt-icon"><svg viewBox="0 0 40 40" fill="none"><rect x="11" y="17" width="18" height="14" rx="2" fill="#2952B8" opacity="0.1"/><rect x="11" y="17" width="18" height="14" rx="2" stroke="#2952B8" stroke-width="1.8"/><path d="M15 17V13C15 11.3431 16.3431 10 18 10H22C23.6569 10 25 11.3431 25 13V17" stroke="#B8832A" stroke-width="1.8"/><circle cx="20" cy="24" r="2.2" fill="#B8832A"/></svg></span><span class="opt-lbl">Préparer ma retraite</span></div>
+          <div class="opt" onclick="tog(this,'Valoriser mon épargne','Une épargne non investie perd en valeur réelle face à l\'inflation.')"><div class="chk">✓</div><span class="opt-icon"><svg viewBox="0 0 40 40" fill="none"><path d="M10 30V24M17 30V19M24 30V14M31 30V9" stroke="#2952B8" stroke-width="2.2" stroke-linecap="round"/><path d="M27 9H31V13" stroke="#B8832A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="opt-lbl">Valoriser mon épargne</span></div>
+          <div class="opt" onclick="tog(this,'Protéger ma famille','La protection familiale reste un pilier essentiel de toute stratégie patrimoniale.')"><div class="chk">✓</div><span class="opt-icon"><svg viewBox="0 0 40 40" fill="none"><path d="M20 9L31 13V20C31 27 26 30.5 20 32C14 30.5 9 27 9 20V13L20 9Z" fill="#B8832A" opacity="0.1"/><path d="M20 9L31 13V20C31 27 26 30.5 20 32C14 30.5 9 27 9 20V13L20 9Z" stroke="#2952B8" stroke-width="1.8" stroke-linejoin="round"/><path d="M16 20L19 23L25 16" stroke="#B8832A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="opt-lbl">Protéger ma famille</span></div>
+          <div class="opt" onclick="tog(this,'Investir dans l\'immobilier','L\'immobilier demeure une valeur refuge appréciée pour la diversification patrimoniale.')"><div class="chk">✓</div><span class="opt-icon"><svg viewBox="0 0 40 40" fill="none"><path d="M8 19L20 9L32 19" stroke="#2952B8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 17V31H28V17" stroke="#2952B8" stroke-width="1.8" stroke-linejoin="round"/><rect x="17" y="23" width="6" height="8" fill="#B8832A" opacity="0.7"/></svg></span><span class="opt-lbl">Investir en immobilier</span></div>
+          <div class="opt" onclick="tog(this,'Protéger mon activité','Sécuriser son activité professionnelle est une priorité pour de nombreux indépendants.')"><div class="chk">✓</div><span class="opt-icon"><svg viewBox="0 0 40 40" fill="none"><rect x="10" y="22" width="20" height="9" rx="1.5" fill="#2952B8" opacity="0.1"/><rect x="10" y="22" width="20" height="9" rx="1.5" stroke="#2952B8" stroke-width="1.8"/><path d="M14 22L17 13H23L26 22" stroke="#2952B8" stroke-width="1.6" stroke-linejoin="round"/><circle cx="20" cy="26.5" r="2" fill="#B8832A"/></svg></span><span class="opt-lbl">Protéger mon activité</span></div>
+          <div class="opt" onclick="tog(this,'Anticiper ma transmission','Anticiper la transmission de son patrimoine permet d\'en optimiser la fiscalité.')"><div class="chk">✓</div><span class="opt-icon"><svg viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="11" stroke="#2952B8" stroke-width="1.8" opacity="0.35"/><circle cx="20" cy="20" r="6.5" stroke="#2952B8" stroke-width="1.8"/><circle cx="20" cy="20" r="2" fill="#B8832A"/></svg></span><span class="opt-lbl">Anticiper ma transmission</span></div>
+          <div class="opt" onclick="tog(this,'Autres','Votre analyse sera adaptée à vos besoins spécifiques.')"><div class="chk">✓</div><span class="opt-icon"><svg viewBox="0 0 40 40" fill="none"><circle cx="14" cy="20" r="2.4" fill="#2952B8"/><circle cx="20" cy="20" r="2.4" fill="#B8832A"/><circle cx="26" cy="20" r="2.4" fill="#2952B8"/></svg></span><span class="opt-lbl">Autres</span></div>
+        </div>
+        <div class="nav"><button class="back" onclick="go(2)">← Retour</button><button class="cta" id="b3" disabled onclick="go(4)">Continuer →</button></div>
+      </div>
+
+      <!-- S4 FISCALITÉ -->
+      <div class="screen" id="s4">
+        <span class="stag">Votre fiscalité</span>
+        <div class="sh1">Votre imposition annuelle ?</div>
+        <div class="sh2">Plus vous payez d'impôts, plus le potentiel d'économie est grand</div>
+        <div class="opts c1">
+          <div class="opt" onclick="pick(this,'impot','500','À ce niveau, des solutions d\'optimisation simples peuvent déjà être envisagées.')"><div class="chk">✓</div><span class="opt-lbl">Moins de 2 500 €</span><span class="opt-sub">Tranche basse</span></div>
+          <div class="opt" onclick="pick(this,'impot','3750','Plusieurs dispositifs permettent de réduire significativement cette charge fiscale.')"><div class="chk">✓</div><span class="opt-lbl">Entre 2 500 € et 5 000 €</span><span class="opt-sub">Tranche intermédiaire</span></div>
+          <div class="opt" onclick="pick(this,'impot','6250','À ce niveau d\'imposition, les leviers d\'optimisation deviennent particulièrement pertinents.')"><div class="chk">✓</div><span class="opt-lbl">Entre 5 000 € et 7 500 €</span><span class="opt-sub">Tranche élevée</span></div>
+          <div class="opt" onclick="pick(this,'impot','10000','Votre potentiel d\'optimisation fiscale est significatif à ce niveau d\'imposition.')"><div class="chk">✓</div><span class="opt-lbl">Plus de 7 500 €</span><span class="opt-sub">Forte imposition</span></div>
+        </div>
+        <div class="nav"><button class="back" onclick="go(3)">← Retour</button><button class="cta" id="b4" disabled onclick="go(5)">Continuer →</button></div>
+      </div>
+
+      <!-- S5 ÉPARGNE (sliders) -->
+      <div class="screen" id="s5">
+        <span class="stag">Votre épargne</span>
+        <div class="sh1">Parlons de votre épargne</div>
+        <div class="sh2">Bougez les curseurs — je calcule votre potentiel en temps réel</div>
+
+        <div class="slider-section">
+          <div class="slider-header"><span class="slider-title">Capacité mensuelle</span><span class="slider-current" id="lbl-mens">—</span></div>
+          <input type="range" id="sl-mens" min="0" max="5" step="1" value="0" oninput="slideM(this.value)" style="--pct:0%">
+          <div class="slider-labels"><span class="slider-label">&lt;100€</span><span class="slider-label">100-200€</span><span class="slider-label">200-500€</span><span class="slider-label">500-1k€</span><span class="slider-label">1k-2k€</span><span class="slider-label">&gt;2k€</span></div>
+        </div>
+
+        <div class="slider-section">
+          <div class="slider-header"><span class="slider-title">Épargne totale actuelle</span><span class="slider-current" id="lbl-total">—</span></div>
+          <input type="range" id="sl-total" min="0" max="5" step="1" value="0" oninput="slideT(this.value)" style="--pct:0%">
+          <div class="slider-labels"><span class="slider-label">&lt;10k</span><span class="slider-label">10-30k</span><span class="slider-label">30-50k</span><span class="slider-label">50-100k</span><span class="slider-label">100-200k</span><span class="slider-label">&gt;200k</span></div>
+        </div>
+
+        <div id="est-live" style="display:none">
+          <div class="est strat-est">
+            <div class="est-lbl">Dispositifs d'optimisation identifiés</div>
+            <div class="strat-row">
+              <div class="strat-val"><span id="ev">0</span> stratégie<span id="ev-plural">s</span></div>
+            </div>
+            <div class="strat-dots" id="strat-dots">
+              <span class="strat-dot"></span><span class="strat-dot"></span><span class="strat-dot"></span><span class="strat-dot"></span><span class="strat-dot"></span><span class="strat-dot"></span>
+            </div>
+            <div class="est-hint" id="ev-hint">Affinez les curseurs pour révéler les dispositifs adaptés à votre situation</div>
+          </div>
+        </div>
+
+        <div class="nav"><button class="back" onclick="go(4)">← Retour</button><button class="cta" id="b5" disabled onclick="go(6)">Voir mon analyse →</button></div>
+      </div>
+
+      <!-- S6 LOCALISATION -->
+      <div class="screen" id="s6">
+        <span class="stag">Dernière étape</span>
+        <div class="sh1">Encore quelques infos</div>
+        <div class="sh2">Pour finaliser votre analyse personnalisée</div>
+        <div class="inp-wrap"><label class="inp-lbl">Ville de résidence</label><input class="inp" id="i-ville" type="text" placeholder="Paris, Lyon, Marseille..." oninput="chk6()"></div>
+        <div class="inp-wrap"><label class="inp-lbl">Code postal</label><input class="inp" id="i-cp" type="text" placeholder="75001" maxlength="5" oninput="chk6()"></div>
+        <div class="inp-wrap"><label class="inp-lbl">Votre âge</label><input class="inp" id="i-age" type="number" placeholder="42" min="18" max="99" oninput="chk6()"></div>
+        <div class="nav"><button class="back" onclick="go(5)">← Retour</button><button class="cta" id="b6" disabled onclick="go(7)">Calculer mon analyse →</button></div>
+      </div>
+
+      <!-- S7 LOADER -->
+      <div class="screen" id="s7">
+        <div class="loader">
+          <div class="spin"></div>
+          <div class="load-txt">Walter analyse votre dossier...</div>
+          <div class="load-item" id="li0"><span class="ld"></span>Analyse de votre profil fiscal</div>
+          <div class="load-item" id="li1"><span class="ld"></span>Calcul de votre potentiel patrimonial</div>
+          <div class="load-item" id="li2"><span class="ld"></span>Identification des meilleures stratégies</div>
+          <div class="load-item" id="li3"><span class="ld"></span>Finalisation de votre rapport personnalisé</div>
+        </div>
+      </div>
+
+      <!-- S8 RÉSULTATS -->
+      <div class="screen" id="s8">
+        <span class="stag">Votre analyse est prête</span>
+        <div class="sh1">Un potentiel bien réel à explorer</div>
+        <div class="sh2">Voici ce que votre profil révèle. Renseignez vos coordonnées pour recevoir votre étude personnalisée.</div>
+
+        <div class="recap-box">
+          <div class="recap-lbl">Vos objectifs identifiés</div>
+          <div class="recap-obj" id="recap-obj">—</div>
+        </div>
+
+        <div class="est-grid">
+          <div class="est soft-est">
+            <div class="est-lbl">Potentiel de croissance</div>
+            <div class="est-val soft-val" id="r10">—</div>
+            <div class="est-hint">sur 10 ans, scénario prudent</div>
+          </div>
+          <div class="est soft-est">
+            <div class="est-lbl">Économie fiscale estimée</div>
+            <div class="est-val soft-val" id="rfisc">—</div>
+            <div class="est-hint">par an, selon votre tranche</div>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+        <div class="inp-wrap"><label class="inp-lbl">Prénom et nom</label><input class="inp" id="i-nom" type="text" placeholder="Jean Dupont" oninput="chk8()"></div>
+        <div class="inp-wrap"><label class="inp-lbl">Numéro de téléphone</label><input class="inp" id="i-tel" type="tel" placeholder="+33 6 _ _  _ _  _ _  _ _" oninput="chk8()"></div>
+        <button class="cta cta-full" id="b8" disabled onclick="goWithSubmit()">Recevoir mon analyse détaillée →</button>
+        <div class="reassure">🔒 Données confidentielles. Aucun démarchage commercial.</div>
+      </div>
+
+      <!-- S9 ÉTUDE PERSONNALISÉE -->
+      <div class="screen" id="s9">
+        <div class="etude-wrap">
+
+          <div class="etude-top">
+            <span class="stag">Demande enregistrée</span>
+            <div class="sh1" style="margin-bottom:4px">Votre étude est en cours de préparation</div>
+            <div class="sh2">Veuillez patienter quelques instants…</div>
+          </div>
+
+          <!-- Sablier : visible pendant 10s -->
+          <div id="etude-sablier" class="countdown-wrap">
+            <img src="assets/sablier.gif" alt="Chargement" class="countdown-gif">
+          </div>
+
+          <!-- Walter + bouton : masqués, apparaissent après 10s -->
+          <div id="etude-reveal" style="display:none;flex-direction:column;align-items:center;gap:0.85rem">
+            <img src="assets/walter-thumb.png" alt="Walter" class="reveal-walter">
+            <div class="sh1" style="text-align:center;margin-bottom:6px">Votre étude est prête !</div>
+            <a href="https://alter-eco-reveal.lovable.app" target="_blank" class="cta-reveal">Accéder à mon étude →</a>
+          </div>
+
+          <div class="divider"></div>
+
+          <!-- Email : toujours visible -->
+          <div class="email-alt">
+            <div class="email-alt-lbl">Recevoir l'analyse par e-mail</div>
+            <div class="email-row">
+              <input class="inp" id="i-email" type="email" placeholder="votre@email.fr" oninput="chkEmail()">
+              <button class="cta-email" id="btn-email" disabled onclick="sendEmail()">Envoyer</button>
+            </div>
+            <div class="email-confirm" id="email-confirm"></div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- POPUP VÉRIFICATION SMS -->
+  <div class="otp-overlay" id="otp-overlay">
+    <div class="otp-box">
+      <div class="otp-title">Vérification de votre numéro</div>
+      <div class="otp-sub" id="otp-sub">Un code a été envoyé par SMS au <span id="otp-phone-display"></span>.</div>
+      <input class="otp-input" id="otp-code" type="text" inputmode="numeric" maxlength="6" placeholder="• • • • • •" oninput="this.value=this.value.replace(/\D/g,'');chkOtpInput()">
+      <div class="otp-error" id="otp-error"></div>
+      <button class="cta cta-full" id="otp-verify-btn" disabled onclick="verifyOtp()">Valider le code</button>
+      <button class="otp-resend" id="otp-resend-btn" onclick="resendOtp()">Renvoyer le code</button>
+    </div>
+  </div>
+
+</section>
+
+<script>
+// ===== PRELOADER =====
+(function(){
+  const pre = document.getElementById('preloader');
+  const vid = document.getElementById('preloader-video');
+  let hidden = false;
+  function hidePreloader(){
+    if(hidden) return;
+    hidden = true;
+    pre.classList.add('hide');
+  }
+  if(vid){
+    vid.addEventListener('ended', hidePreloader);
+    vid.addEventListener('error', hidePreloader);
+  }
+  // Sécurité : si la vidéo ne se charge pas ou met trop de temps, on masque après 5s max
+  setTimeout(hidePreloader, 5000);
+})();
+
+const D = {}; const OBJ = new Set();
+const STEPS = [null,'Profil','Famille','Objectifs','Fiscalité','Épargne','Localisation',null,'Résultats',null];
+const TOTAL = 7;
+
+function startForm(){
+  document.getElementById('page-home').style.display='none';
+  document.body.classList.add('show-form');
+  document.getElementById('formpage').classList.add('active');
+  go(1);
+  window.scrollTo(0,0);
+}
+function goHome(){
+  document.getElementById('page-home').style.display='';
+  document.body.classList.remove('show-form');
+  document.getElementById('formpage').classList.remove('active');
+  window.scrollTo(0,0);
+}
+
+const MENS_VALS=[50,150,350,750,1500,2500];
+const MENS_LBLS=['< 100 € / mois','100–200 € / mois','200–500 € / mois','500–1 000 € / mois','1 000–2 000 € / mois','> 2 000 € / mois'];
+const TOTAL_VALS=[5000,20000,40000,75000,150000,250000];
+const TOTAL_LBLS=['< 10 000 €','10 000–30 000 €','30 000–50 000 €','50 000–100 000 €','100 000–200 000 €','> 200 000 €'];
+// Libellés au format long, utilisés uniquement pour l'envoi vers Airtable (n'affecte pas l'affichage du site)
+const MENS_LBLS_AIRTABLE=['Moins de 100€','Entre 100€ et 200€','Entre 200€ et 500€','Entre 500€ et 1 000€','Entre 1 000€ et 2 000€','Plus de 2 000€'];
+const TOTAL_LBLS_AIRTABLE=['Moins de 10 000€','Entre 10 000€ et 30 000€','Entre 30 000€ et 50 000€','Entre 50 000€ et 100 000€','Entre 100 000€ et 200 000€','Plus de 200 000€'];
+const MSGS_M=[
+  'Même un montant modeste, investi régulièrement, peut produire un effet cumulatif notable sur la durée.',
+  'Cette capacité d\'épargne permet d\'envisager une stratégie d\'investissement progressive et structurée.',
+  'Avec cette capacité mensuelle, plusieurs supports d\'investissement deviennent pertinents.',
+  'Cette capacité d\'épargne ouvre l\'accès à des stratégies de diversification plus complètes.',
+  'Votre capacité d\'épargne permet d\'envisager des stratégies d\'investissement plus ambitieuses.',
+  'À ce niveau de capacité mensuelle, une approche patrimoniale approfondie est recommandée.'
+];
+const MSGS_T=[
+  'Cette base d\'épargne constitue un point de départ tout à fait exploitable.',
+  'Cette épargne peut être réorientée vers des supports plus performants.',
+  'Ce capital permet d\'envisager plusieurs axes de diversification.',
+  'À ce niveau de capital, la diversification devient un enjeu central.',
+  'Ce patrimoine justifie une stratégie d\'allocation réfléchie et personnalisée.',
+  'Ce niveau de patrimoine nécessite une approche d\'optimisation approfondie.'
+];
+
+const DEFAULT_MSGS = {
+  1: 'Très bien, commençons. Quelques questions simples pour personnaliser votre analyse.',
+  2: 'Votre situation familiale a un impact direct sur les stratégies fiscales applicables.',
+  3: 'Sélectionnez jusqu\'à 4 objectifs prioritaires — cela permet d\'affiner les recommandations.',
+  4: 'Le niveau d\'imposition est un critère déterminant pour identifier les leviers d\'optimisation.',
+  5: 'Bougez les curseurs pour visualiser votre potentiel de croissance en temps réel.',
+  6: 'Quelques informations complémentaires pour finaliser votre analyse personnalisée.'
+};
+
+let mIdx=-1, tIdx=-1;
+const MAX_OBJ = 4;
+
+function updateSliderBg(el){const pct=(el.value/(el.max-el.min))*100;el.style.setProperty('--pct',pct+'%');}
+function slideM(v){const i=parseInt(v);mIdx=i;D.mens=MENS_VALS[i];D.mensLabel=MENS_LBLS_AIRTABLE[i];document.getElementById('lbl-mens').textContent=MENS_LBLS[i];updateSliderBg(document.getElementById('sl-mens'));genie(MSGS_M[i]);if(tIdx>=0){document.getElementById('b5').disabled=false;showLive();}}
+function slideT(v){const i=parseInt(v);tIdx=i;D.total=TOTAL_VALS[i];D.totalLabel=TOTAL_LBLS_AIRTABLE[i];document.getElementById('lbl-total').textContent=TOTAL_LBLS[i];updateSliderBg(document.getElementById('sl-total'));if(mIdx<0)genie('Vous pouvez maintenant ajuster votre épargne totale actuelle avec le second curseur.');else{genie(MSGS_T[i]);document.getElementById('b5').disabled=false;showLive();}}
+function showLive(){
+  const m = mIdx>=0?mIdx:0, t = tIdx>=0?tIdx:0;
+  // Le nombre de stratégies progresse avec le niveau le plus engageant des deux curseurs,
+  // jamais avec leur simple moyenne, pour ne pas pénaliser les petits montants.
+  const best = Math.max(m, t);
+  const count = Math.min(6, 2 + best);
+  document.getElementById('ev').textContent = count;
+  document.getElementById('ev-plural').textContent = count > 1 ? 's' : '';
+  document.querySelectorAll('.strat-dot').forEach((d,i)=>{
+    d.classList.toggle('lit', i < count);
+  });
+  const hints = [
+    'Affinez les curseurs pour révéler les dispositifs adaptés à votre situation',
+    'Premiers dispositifs identifiés — d\'autres options apparaissent selon votre profil',
+    'Plusieurs dispositifs sont déjà compatibles avec votre situation',
+    'Votre profil ouvre l\'accès à un éventail de stratégies complémentaires',
+    'Un nombre significatif de dispositifs s\'appliquent à votre situation',
+    'Votre profil permet d\'envisager une stratégie patrimoniale complète'
+  ];
+  document.getElementById('ev-hint').textContent = hints[Math.min(count-2, hints.length-1)];
+  document.getElementById('est-live').style.display = 'block';
+}
+
+function prog(n){
+  const pct = n===0 ? 0 : Math.round((Math.min(n,TOTAL)/TOTAL)*100);
+  document.getElementById('pf2').style.width = pct+'%';
+  document.getElementById('ps2').textContent = STEPS[n] || '';
+  document.getElementById('pp2').textContent = (n>0 && n<7) ? ('Étape '+n+' / '+TOTAL) : '';
+}
+function genie(txt){
+  // Bulle formulaire
+  const el = document.getElementById('gtxt');
+  el.classList.remove('genie-animating');
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(5px)';
+  setTimeout(()=>{
+    el.textContent = txt;
+    el.style.opacity = '';
+    el.style.transform = '';
+    el.classList.add('genie-animating');
+    setTimeout(()=>el.classList.remove('genie-animating'), 400);
+  }, 180);
+}
+
+function go(n){
+  if(n===7){
+    show(7);prog(7);
+    genie('Veuillez patienter, l\'analyse de votre dossier est en cours.');
+    [0,1,2,3].forEach((i,idx)=>setTimeout(()=>document.getElementById('li'+i).classList.add('lit'),idx*580));
+    setTimeout(()=>{calcRes();go(8);},2800);
+    return;
+  }
+  show(n);prog(n);
+  if(DEFAULT_MSGS[n]) genie(DEFAULT_MSGS[n]);
+  if(n===8)genie('Votre analyse est prête. Renseignez vos coordonnées pour recevoir le rapport complet.');
+  if(n===9){
+    // Masquer la bulle Walter sur la dernière page
+    document.querySelector('.genie-row').style.display = 'none';
+    if(cdTimer) clearTimeout(cdTimer);
+    setTimeout(startCountdown, 400);
+  } else {
+    // Réafficher la bulle sur les autres écrans
+    const gr = document.querySelector('.genie-row');
+    if(gr) gr.style.display = '';
+  }
+}
+function show(n){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById('s'+n).classList.add('active');}
+
+function pick(el,key,val,msg){el.closest('.opts').querySelectorAll('.opt').forEach(o=>o.classList.remove('sel'));el.classList.add('sel');D[key]=val;const lblEl=el.querySelector('.opt-lbl');if(lblEl)D[key+'Label']=lblEl.textContent.trim();if(msg)genie(msg);const map={statut:'b1',famille:'b2',impot:'b4'};if(map[key])document.getElementById(map[key]).disabled=false;}
+function tog(el,val,msg){
+  const isSelected = el.classList.contains('sel');
+  if(!isSelected && OBJ.size>=MAX_OBJ){
+    genie('Vous pouvez sélectionner jusqu\'à '+MAX_OBJ+' objectifs prioritaires. Désélectionnez-en un pour en choisir un autre.');
+    return;
+  }
+  el.classList.toggle('sel');
+  if(el.classList.contains('sel')){OBJ.add(val);if(msg)genie(msg);}
+  else OBJ.delete(val);
+  document.getElementById('b3').disabled=OBJ.size===0;
+}
+
+function calcRes(){
+  const m=D.mens||0,t=D.total||0,r=0.025,y=10;
+  const flow=Math.round(m*12*((Math.pow(1+r,y)-1)/r));
+  const stock=Math.round(t*(Math.pow(1+r,y)-1));
+  const total=flow+stock;
+
+  // Fourchette : -20% / +30% autour de l'estimation
+  function fmt(n){return n.toLocaleString('fr-FR')}
+  const lo=Math.round(total*0.8/1000)*1000;
+  const hi=Math.round(total*1.3/1000)*1000;
+  document.getElementById('r10').textContent = lo>0 ? fmt(lo)+' — '+fmt(hi)+' €' : 'Potentiel à préciser dans votre étude';
+
+  const fisc=Math.round(parseInt(D.impot||3750)*0.12);
+  const fiscLo=Math.round(fisc*0.7/100)*100;
+  const fiscHi=Math.round(fisc*1.4/100)*100;
+  document.getElementById('rfisc').textContent = fiscLo>0 ? fmt(fiscLo)+' — '+fmt(fiscHi)+' €' : 'À définir selon vos dispositifs';
+
+  // Récap objectifs
+  const container=document.getElementById('recap-obj');
+  container.innerHTML='';
+  if(OBJ.size===0){
+    container.innerHTML='<span class="recap-tag">Non renseignés</span>';
+  } else {
+    OBJ.forEach(obj=>{
+      const tag=document.createElement('span');
+      tag.className='recap-tag';
+      tag.textContent=obj;
+      container.appendChild(tag);
+    });
+  }
+}
+
+function chk6(){const v=document.getElementById('i-ville').value.trim();const c=document.getElementById('i-cp').value.trim();const a=document.getElementById('i-age').value.trim();const ok=v.length>1&&c.length===5&&a.length>0;document.getElementById('b6').disabled=!ok;if(ok)genie('Votre profil est complet. Le calcul de votre analyse personnalisée va débuter.');}
+function chk8(){const n=document.getElementById('i-nom').value.trim();const t=document.getElementById('i-tel').value.trim();document.getElementById('b8').disabled=!(n.length>2&&t.length>8);}
+
+// ===== VÉRIFICATION SMS (OTP) =====
+let otpVerifiedPhone = null; // mémorise le numéro déjà vérifié avec succès
+
+async function goWithSubmit(){
+  const tel = document.getElementById('i-tel').value.trim();
+
+  // Si ce numéro exact a déjà été vérifié avec succès, on n'embête pas l'utilisateur une 2e fois
+  if(otpVerifiedPhone === tel){
+    await submitToAirtable();
+    return;
+  }
+
+  const btn = document.getElementById('b8');
+  const originalText = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = 'Envoi du code...';
+
+  const sent = await sendOtp(tel);
+
+  btn.disabled = false;
+  btn.textContent = originalText;
+
+  if(sent){
+    openOtpPopup(tel);
+  } else {
+    document.getElementById('otp-error').textContent = '';
+    alert('Impossible d\'envoyer le code de vérification. Vérifiez votre numéro et réessayez.');
+  }
+}
+
+async function sendOtp(telephone){
+  try {
+    const res = await fetch('/.netlify/functions/send-otp', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ telephone })
+    });
+    const data = await res.json();
+    return res.ok && data.success;
+  } catch(err){
+    console.error('Erreur envoi OTP:', err);
+    return false;
+  }
+}
+
+function openOtpPopup(telephone){
+  document.getElementById('otp-phone-display').textContent = telephone;
+  document.getElementById('otp-code').value = '';
+  document.getElementById('otp-error').textContent = '';
+  document.getElementById('otp-verify-btn').disabled = true;
+  document.getElementById('otp-verify-btn').textContent = 'Valider le code';
+  const resendBtn = document.getElementById('otp-resend-btn');
+  resendBtn.disabled = false;
+  resendBtn.textContent = 'Renvoyer le code';
+  document.getElementById('otp-overlay').classList.add('active');
+  setTimeout(()=>document.getElementById('otp-code').focus(), 150);
+}
+
+function closeOtpPopup(){
+  document.getElementById('otp-overlay').classList.remove('active');
+}
+
+function chkOtpInput(){
+  const v = document.getElementById('otp-code').value.trim();
+  document.getElementById('otp-verify-btn').disabled = v.length < 4;
+}
+
+async function verifyOtp(){
+  const telephone = document.getElementById('i-tel').value.trim();
+  const code = document.getElementById('otp-code').value.trim();
+  const verifyBtn = document.getElementById('otp-verify-btn');
+  const errorEl = document.getElementById('otp-error');
+
+  verifyBtn.disabled = true;
+  verifyBtn.textContent = 'Vérification...';
+  errorEl.textContent = '';
+
+  try {
+    const res = await fetch('/.netlify/functions/check-otp', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ telephone, code })
+    });
+    const data = await res.json();
+
+    if(res.ok && data.success){
+      otpVerifiedPhone = telephone;
+      closeOtpPopup();
+      await submitToAirtable();
+    } else {
+      errorEl.textContent = 'Code incorrect. Vérifiez le SMS reçu et réessayez.';
+      verifyBtn.disabled = false;
+      verifyBtn.textContent = 'Valider le code';
+    }
+  } catch(err){
+    console.error('Erreur vérification OTP:', err);
+    errorEl.textContent = 'Erreur de connexion. Réessayez.';
+    verifyBtn.disabled = false;
+    verifyBtn.textContent = 'Valider le code';
+  }
+}
+
+async function resendOtp(){
+  const telephone = document.getElementById('i-tel').value.trim();
+  const resendBtn = document.getElementById('otp-resend-btn');
+  const errorEl = document.getElementById('otp-error');
+
+  resendBtn.disabled = true;
+  resendBtn.textContent = 'Envoi en cours...';
+  errorEl.textContent = '';
+
+  const sent = await sendOtp(telephone);
+
+  if(sent){
+    errorEl.textContent = '';
+    resendBtn.textContent = 'Code renvoyé';
+    setTimeout(()=>{ resendBtn.disabled = false; resendBtn.textContent = 'Renvoyer le code'; }, 15000);
+  } else {
+    errorEl.textContent = 'Impossible de renvoyer le code. Réessayez.';
+    resendBtn.disabled = false;
+    resendBtn.textContent = 'Renvoyer le code';
+  }
+}
+
+async function submitToAirtable(){
+  const btn = document.getElementById('b8');
+  const originalText = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = 'Envoi en cours...';
+
+  const payload = {
+    csp: D.statutLabel || D.statut || '',
+    situationFamiliale: D.familleLabel || D.famille || '',
+    age: parseInt(document.getElementById('i-age').value) || null,
+    impositionAnnuelle: D.impotLabel || '',
+    effortEpargne: D.mensLabel || '',
+    epargneTotale: D.totalLabel || '',
+    ville: document.getElementById('i-ville').value.trim(),
+    codePostal: document.getElementById('i-cp').value.trim(),
+    nomPrenom: document.getElementById('i-nom').value.trim(),
+    telephone: document.getElementById('i-tel').value.trim(),
+    objectifs: Array.from(OBJ)
+  };
+
+  try {
+    await fetch('/.netlify/functions/submit-form', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+  } catch (err) {
+    console.error('Erreur envoi Airtable:', err);
+  }
+
+  btn.disabled = false;
+  btn.textContent = originalText;
+  go(9);
+}
+
+// ===== PAGE FINALE : SABLIER 10s → REVEAL =====
+let cdTimer = null;
+
+function startCountdown(){
+  if(cdTimer) clearTimeout(cdTimer);
+  cdTimer = setTimeout(()=>{
+    const sablier = document.getElementById('etude-sablier');
+    const reveal  = document.getElementById('etude-reveal');
+    if(sablier) sablier.style.display = 'none';
+    if(reveal){
+      reveal.style.display = 'flex';
+      // Force reflow pour déclencher l'animation
+      void reveal.offsetWidth;
+      reveal.style.animation = 'revealIn 0.5s cubic-bezier(.4,0,.2,1) forwards';
+    }
+  }, 10000);
+}
+
+function chkEmail(){
+  const v = document.getElementById('i-email').value.trim();
+  document.getElementById('btn-email').disabled = !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+}
+
+function sendEmail(){
+  const email = document.getElementById('i-email').value.trim();
+  const confirm = document.getElementById('email-confirm');
+
+  // Ici tu brancheras ton endpoint Netlify ou un service mail (ex: Mailchimp, Brevo)
+  // Pour l'instant on simule l'envoi avec un message de confirmation
+  document.getElementById('btn-email').disabled = true;
+  document.getElementById('btn-email').textContent = '...';
+
+  setTimeout(()=>{
+    confirm.textContent = '✓ Votre étude a été envoyée à ' + email;
+    document.getElementById('btn-email').textContent = 'Envoyé';
+  }, 1200);
+}
+</script>
+</body>
+</html>
