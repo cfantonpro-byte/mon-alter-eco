@@ -15,7 +15,7 @@ exports.handler = async (event) => {
       "Effort d'épargne": data.effortEpargne || "",
       "Epargne totale": data.epargneTotale || "",
       "Ville": data.ville || "",
-      "Code Postale": data.codePostal || "",
+      "Code postal": data.codePostal || "",
       "Nom et prénom": data.nomPrenom || "",
       "N° telephone (fx)": data.telephone ? parseInt(data.telephone.replace(/\D/g, ""), 10) : null,
       "Objectifs": Array.isArray(data.objectifs) ? data.objectifs : []
